@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'pcgames_tab.dart';
+import 'playstationgames_tab.dart';
+//import 'favourites_tab.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -34,9 +38,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeRoute(title: 'Mediathèque'),
-        '/second': (context) => const SecondRoute(title: 'PC Games'),
-        '/third': (context) => const ThirdRoute(title: 'Playstation Games'),
-        '/fourth': (context) => const FourthRoute(title: 'Favourites'),
+        '/second': (context) => const PcGamesTab(),
+        '/third': (context) => const PlayStationGamesTab(),
+        //'/fourth': (context) => const FavouritesTab(title: 'Favourites'),
       },
     );
   }
@@ -119,72 +123,4 @@ class HomeRoute extends StatelessWidget {
   }
 }
 
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({super.key, required this.title});
-  final String title ;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('HomePage'),
-        ),
-      ),
-    );
-  } 
-}
-
-class ThirdRoute extends StatelessWidget {
-  const ThirdRoute({super.key, required this.title});
-  final String title ;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('HomePage'),
-        ),
-      ),
-    );
-  } 
-}
-
-class FourthRoute extends StatelessWidget {
-  const FourthRoute({super.key, required this.title});
-  final String title ;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('HomePage'),
-        ),
-      ),
-    );
-  } 
-}
 

@@ -9,7 +9,14 @@ class PlayStationGamesTab extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('List of PlayStation games'),
+          title: const Text('PlayStation games'),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back), // Utilisation de l'icône de retour
+            onPressed: () {
+              Navigator.pop(context); // Pop de la route actuelle pour revenir à la précédente
+            },
+          ),
         ),
         body: ListView.builder(
           itemCount: playstationgames.length,
@@ -18,12 +25,12 @@ class PlayStationGamesTab extends StatelessWidget {
             return ListTile(
               title: Text(playstationgames[index].title),
               subtitle:
-                  Text('Description: ${playstationgames[index].description}'),
+                  Text('Genre: ${playstationgames[index].genre}\nDescription: ${playstationgames[index].description}'),
               leading: Image.asset(
                 playstationgames[index].imageUrl,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
+                width: 35,
+                height: 100,
+                fit: BoxFit.fill,
               ),
             );
           },

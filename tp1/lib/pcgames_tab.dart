@@ -9,7 +9,14 @@ class PcGamesTab extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('List of PC games'),
+          title: const Text('PC games'),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back), // Utilisation de l'icône de retour
+            onPressed: () {
+              Navigator.pop(context); // Pop de la route actuelle pour revenir à la précédente
+            },
+          ),
         ),
         body: ListView.builder(
           itemCount: pcgames.length,
@@ -17,12 +24,12 @@ class PcGamesTab extends StatelessWidget {
             // Build each ListTile using the object at the corresponding index
             return ListTile(
               title: Text(pcgames[index].title),
-              subtitle: Text('Description: ${pcgames[index].description}'),
+              subtitle: Text('Genre: ${pcgames[index].genre}\nDescription: ${pcgames[index].description}'),
               leading: Image.asset(
                 pcgames[index].imageUrl,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+                fit: BoxFit.fill,
               ),
             );
           },

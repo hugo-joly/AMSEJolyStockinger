@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class GameModel {
   final String imageUrl;
   final String title;
@@ -49,21 +51,23 @@ const playstationgames = [
 ];
 
 // Service de gestion des favoris
-class FavoriteService {
-  static List<GameModel> favourites = [];
+class FavoriteService  extends ChangeNotifier {
+  List<GameModel> favourites = [];
 
   // Ajouter un jeu aux favoris
-  static void addToFavorites(GameModel game) {
+void addToFavorites(GameModel game) {
     favourites.add(game);
+    notifyListeners();
   }
 
   // Retirer un jeu des favoris
-  static void removeFromFavorites(GameModel game) {
+  void removeFromFavorites(GameModel game) {
     favourites.remove(game);
+    notifyListeners();
   }
 
   // Vérifier si un jeu est dans les favoris
-  static bool isInFavorites(GameModel game) {
+  bool isInFavorites(GameModel game) {
     return favourites.contains(game);
   }
 }

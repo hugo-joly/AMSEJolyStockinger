@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp1/model.dart';
+import 'package:provider/provider.dart';
 
 
 class PcGamesTab extends StatelessWidget {
@@ -33,15 +34,10 @@ class PcGamesTab extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.favorite),
+                icon: const Icon(Icons.favorite_border),
                 onPressed: () {
-                  if (FavoriteService.isInFavorites(pcgames[index])) {
-                    FavoriteService.removeFromFavorites(pcgames[index]);
-                  }
-                  else {
-                    FavoriteService.addToFavorites(pcgames[index]);
-                  }
-                }
+                  Provider.of<FavoriteService>(context, listen: false).addToFavorites(pcgames[index]);
+                },
               ),
             );
           },

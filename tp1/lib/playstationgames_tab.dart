@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp1/model.dart';
+import 'package:provider/provider.dart';
 
 class PlayStationGamesTab extends StatelessWidget {
   // Sample list of objects
@@ -33,16 +34,11 @@ class PlayStationGamesTab extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.favorite),
+                icon: const Icon(Icons.favorite_border),
                 onPressed: () {
-                  if (FavoriteService.isInFavorites(playstationgames[index])) {
-                    FavoriteService.removeFromFavorites(playstationgames[index]);
-                  }
-                  else {
-                    FavoriteService.addToFavorites(playstationgames[index]);
-                  }
-                }
-              ),
+                  Provider.of<FavoriteService>(context, listen: false).addToFavorites(pcgames[index]);
+                },
+              ),              
             );
           },
         ),

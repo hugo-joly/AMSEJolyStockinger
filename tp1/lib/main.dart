@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'pcgames_tab.dart';
 import 'playstationgames_tab.dart';
-//import 'favourites_tab.dart';
+import 'favourites_tab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeRoute(title: 'Mediathèque'),
         '/second': (context) => const PcGamesTab(),
         '/third': (context) => const PlayStationGamesTab(),
-        //'/fourth': (context) => const FavouritesTab(title: 'Favourites'),
+        '/fourth': (context) => const FavouritesTab(),
       },
     );
   }

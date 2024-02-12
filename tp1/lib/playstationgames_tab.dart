@@ -32,6 +32,17 @@ class PlayStationGamesTab extends StatelessWidget {
                 height: 100,
                 fit: BoxFit.fill,
               ),
+              trailing: IconButton(
+                icon: const Icon(Icons.favorite),
+                onPressed: () {
+                  if (FavoriteService.isInFavorites(playstationgames[index])) {
+                    FavoriteService.removeFromFavorites(playstationgames[index]);
+                  }
+                  else {
+                    FavoriteService.addToFavorites(playstationgames[index]);
+                  }
+                }
+              ),
             );
           },
         ),

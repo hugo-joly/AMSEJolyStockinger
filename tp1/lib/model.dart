@@ -47,3 +47,23 @@ const playstationgames = [
     description: "spiderman l'homme araignée",
   )
 ];
+
+// Service de gestion des favoris
+class FavoriteService {
+  static List<GameModel> favourites = [];
+
+  // Ajouter un jeu aux favoris
+  static void addToFavorites(GameModel game) {
+    favourites.add(game);
+  }
+
+  // Retirer un jeu des favoris
+  static void removeFromFavorites(GameModel game) {
+    favourites.remove(game);
+  }
+
+  // Vérifier si un jeu est dans les favoris
+  static bool isInFavorites(GameModel game) {
+    return favourites.contains(game);
+  }
+}

@@ -57,17 +57,17 @@ class FavoriteService  extends ChangeNotifier {
   // Ajouter un jeu aux favoris
 void addToFavorites(GameModel game) {
     favourites.add(game);
-    notifyListeners();
+    //notifyListeners();
   }
 
   // Retirer un jeu des favoris
-  void removeFromFavorites(GameModel game) {
+void removeFromFavorites(GameModel game) {
     favourites.remove(game);
-    notifyListeners();
+    //notifyListeners();
   }
 
   // Vérifier si un jeu est dans les favoris
-  bool isInFavorites(GameModel game) {
+bool isInFavorites(GameModel game) {
     return favourites.contains(game);
   }
 }

@@ -20,29 +20,39 @@ class PcGamesTab extends StatelessWidget {
             },
           ),
         ),
-        body: ListView.builder(
-          itemCount: pcgames.length,
-          itemBuilder: (BuildContext context, int index) {
-            // Build each ListTile using the object at the corresponding index
-            return ListTile(
-              title: Text(pcgames[index].title),
-              subtitle: Text('Genre: ${pcgames[index].genre}\nDescription: ${pcgames[index].description}'),
-              leading: Image.asset(
-                pcgames[index].imageUrl,
-                width: 100,
-                height: 100,
-                fit: BoxFit.fill,
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.favorite_border),
-                onPressed: () {
-                  Provider.of<FavoriteService>(context, listen: false).addToFavorites(pcgames[index]);
-                },
-              ),
+        body: Consumer<FavoriteService>(
+          builder: (context, favoriteService, child) {
+            return ListView.builder(
+              itemCount: pcgames.length,
+              itemBuilder: (BuildContext context, int index) {
+                final game = pcgames[index];
+                final favoriteService = Provider.of<FavoriteService>(context, listen: false);
+                // Build each ListTile using the object at the corresponding index
+                return ListTile(
+                  title: Text(pcgames[index].title),
+                  subtitle: Text('Genre: ${game.genre}\nDescription: ${pcgames[index].description}'),
+                  leading: Image.asset(
+                    pcgames[index].imageUrl,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(favoriteService.isInFavorites(game) ? Icons.favorite : Icons.favorite_border),
+                    onPressed: () {
+                      if (favoriteService.isInFavorites(game)) {
+                        favoriteService.removeFromFavorites(game);
+                      } else {
+                        favoriteService.addToFavorites(game);
+                      }
+                    },
+                  ),
+                );
+              },
             );
           },
         ),
-      ),
+      )
     );
   }
 }

@@ -22,20 +22,19 @@ class FavouritesTab extends StatelessWidget {
         ),
       ),
       body: Consumer<FavoriteService>(
-        builder: (context, FavoriteService, child) {
+        builder: (context, favoriteService, child) {
           return ListView.builder(
-            itemCount: FavoriteService.favourites.length,
+            itemCount: favoriteService.favourites.length,
             itemBuilder: (BuildContext context, int index) {
+                final favoriteService = Provider.of<FavoriteService>(context, listen: false);
               // Build each ListTile using the object at the corresponding index
               return ListTile(
-                title: Text(FavoriteService.favourites[index].title),
+                title: Text(favoriteService.favourites[index].title),
                 subtitle: Text(
-                  'Genre: ${FavoriteService.favourites[index].genre}\nDescription: ${FavoriteService.favourites[index].description}',
+                  'Genre: ${favoriteService.favourites[index].genre}\nDescription: ${favoriteService.favourites[index].description}',
                 ),
                 leading: Image.asset(
-                  FavoriteService.favourites[index].imageUrl,
-                  width: 100,
-                  height: 100,
+                  favoriteService.favourites[index].imageUrl,
                   fit: BoxFit.fill,
                 ),
               );

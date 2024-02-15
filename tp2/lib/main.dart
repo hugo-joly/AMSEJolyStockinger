@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'exo1/mainexo1.dart';
 
-//a enlever
 void main() {
   runApp(const MyApp());
 }
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Médiathèque',
+      title: 'TP2',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeRoute(title: 'Bibliothèque exercice'),
-        //'/second': (context) => const PcGamesTab(),
+        '/': (context) => const HomeRoute(title: 'TP2'),
+        '/second': (context) => const Exo1(),
         //'/third': (context) => const PlayStationGamesTab(),
         //'/fourth': (context) => const FavouritesTab(),
       },

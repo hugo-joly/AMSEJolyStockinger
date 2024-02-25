@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'exo1/mainexo1.dart';
+import 'exo2/mainexo2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeRoute(title: 'TP2'),
         '/second': (context) => const Exo1(),
-        //'/third': (context) => const PlayStationGamesTab(),
+        '/third': (context) => const Exo2(),
         //'/fourth': (context) => const FavouritesTab(),
       },
     );

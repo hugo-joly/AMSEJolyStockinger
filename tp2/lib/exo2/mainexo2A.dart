@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Exo2());
+void main() => runApp(const Exo2A());
 
-class Exo2 extends StatelessWidget {
-  const Exo2({super.key});
+class Exo2A extends StatelessWidget {
+  const Exo2A({super.key});
 
   @override
   Widget build(BuildContext context) {

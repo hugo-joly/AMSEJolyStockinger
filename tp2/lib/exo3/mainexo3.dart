@@ -25,7 +25,11 @@ class _MenuState extends State<Menu> {
           MenuTile(
               title: "Exercice 1",
               subtitle: "Afficher une image",
-              exercice: Exo1())
+              exercice: const Exo1()),
+          MenuTile(
+              title: "Exercice 2A",
+              subtitle: "Sliders",
+              exercice: const Exo2())
         ]));
   }
 }

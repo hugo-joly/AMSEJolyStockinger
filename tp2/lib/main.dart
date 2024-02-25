@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'exo1/mainexo1.dart';
-import 'exo2/mainexo2.dart';
+import 'package:tp2/exo3/mainexo3.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,96 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeRoute(title: 'TP2'),
-        '/second': (context) => const Exo1(),
-        '/third': (context) => const Exo2(),
-        //'/fourth': (context) => const FavouritesTab(),
-      },
-    );
-  }
-}
-
-class HomeRoute extends StatelessWidget {
-  const HomeRoute({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 40.0,
-                    horizontal: 80.0), // Marge autour du conteneur
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity,
-                        double.infinity), // Taille minimale du bouton
-                    textStyle:
-                        const TextStyle(fontSize: 30.0), // Taille du texte
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/second');
-                  },
-                  child: const Text('Exo 1'),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 40.0, horizontal: 80.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, double.infinity),
-                    textStyle: const TextStyle(fontSize: 30.0),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/third');
-                  },
-                  child: const Text('Exo 2'),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 40.0, horizontal: 80.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, double.infinity),
-                    textStyle: const TextStyle(fontSize: 30.0),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/fourth');
-                  },
-                  child: const Text('Exo 3'),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      home: const Menu(),
     );
   }
 }

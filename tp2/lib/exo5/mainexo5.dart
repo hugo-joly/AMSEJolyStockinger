@@ -15,8 +15,8 @@ class Tile {
         child: Container(
           child: Align(
             alignment: alignment,
-            widthFactor: 0.33,
-            heightFactor: 0.33,
+            widthFactor: 1/3,
+            heightFactor: 1/3,
             child: Image.network(this.imageURL),
           ),
         ),
@@ -26,9 +26,15 @@ class Tile {
 }
 
 List<Tile> tiles = [
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, -1)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, -1)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, -1)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, 0)),
   Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, 0)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0.5, 0)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 0))
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 0)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, 1)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, 1)),
+  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 1))
 ];
 
 class Exo5 extends StatelessWidget {

@@ -39,11 +39,6 @@ List<Tile> createTileTab(int nbTile) {
 }
 
 
-
-
-
-
-
 class Exo5B extends StatefulWidget {
   @override
   _Exo5BState createState() => _Exo5BState();

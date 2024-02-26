@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/exo5/mainexo5A.dart';
 import 'package:tp2/exo5/mainexo5B.dart';
+import 'package:tp2/exo6/mainexo6A.dart';
 import '../exo1/mainexo1.dart';
 import '../exo2/mainexo2A.dart';
 import '../exo2b/mainexo2B.dart';
@@ -49,7 +50,11 @@ class _MenuState extends State<Menu> {
           MenuTile(
               title: "Exercice 5B", 
               subtitle: "Grid View, tableau variable", 
-              exercice: Exo5B())
+              exercice: Exo5B()),
+          MenuTile(
+              title: "Exercice 6A", 
+              subtitle: "échanger 2 tiles", 
+              exercice: PositionedTiles())
         ]));
   }
 }

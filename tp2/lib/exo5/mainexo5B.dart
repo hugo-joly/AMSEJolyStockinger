@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -38,7 +40,29 @@ List<Tile> tiles = [
 ];
 
 class Exo5B extends StatelessWidget {
-  double _currentSliderSize = 0;
+  const Exo5B({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        colorSchemeSeed: const Color(0xff6750a4),
+        useMaterial3: true,
+      ),
+      home: const SquaredImage(),
+    );
+  }
+}
+
+class SquaredImage extends StatefulWidget {
+  const SquaredImage({super.key});
+
+  @override
+  State<SquaredImage> createState() => _SquaredImageState();
+}
+
+class _SquaredImageState extends State<SquaredImage> {
+  int _currentSliderSize = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +74,7 @@ class Exo5B extends StatelessWidget {
           children: [
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: _currentSliderSize,
                 mainAxisSpacing: 4.0,
                 crossAxisSpacing: 4.0,
                 childAspectRatio: 1.0,
@@ -96,10 +120,9 @@ Widget _SliderSize({
       Expanded(
         child: Slider(
           value: value,
-          min: 0,
-          max: 2 *
-              3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
-          divisions: 100,
+          min: 1,
+          max: 10,
+          divisions: 10,
           onChanged: onChanged,
         ),
       ),

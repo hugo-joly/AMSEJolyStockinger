@@ -15,8 +15,8 @@ class Tile {
         child: Container(
           child: Align(
             alignment: alignment,
-            widthFactor: 1/3,
-            heightFactor: 1/3,
+            widthFactor: 1 / 3,
+            heightFactor: 1 / 3,
             child: Image.network(this.imageURL),
           ),
         ),
@@ -69,4 +69,3 @@ class Exo5A extends StatelessWidget {
     );
   }
 }
-

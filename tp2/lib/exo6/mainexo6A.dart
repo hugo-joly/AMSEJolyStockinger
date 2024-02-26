@@ -9,6 +9,7 @@ math.Random random = new math.Random();
 
 class Tile {
   late Color color;
+
   Tile(this.color);
   Tile.randomColor() {
     this.color = Color.fromARGB(

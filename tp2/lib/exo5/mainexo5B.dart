@@ -15,8 +15,8 @@ class Tile {
         child: Container(
           child: Align(
             alignment: alignment,
-            widthFactor: 1 / 3,
-            heightFactor: 1 / 3,
+            widthFactor: 1/3,
+            heightFactor: 1/3,
             child: Image.network(this.imageURL),
           ),
         ),
@@ -38,39 +38,39 @@ List<Tile> tiles = [
 ];
 
 class Exo5B extends StatelessWidget {
-  double _currentSliderSize = 0;
+int _currentSliderSize = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Image Fixe'),
-          centerTitle: true,
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: Text('Image Fixe'),
+        centerTitle: true,
+      ),
+      body: Column(
           children: [
             GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                childAspectRatio: 1.0,
-              ),
-              itemCount: tiles.length,
-              itemBuilder: (BuildContext context, int index) {
-                return createTileWidgetFrom(tiles[index]);
-              },
-            ),
-            _SliderSize(
-              value: _currentSliderSize,
-              onChanged: (double value) {
-                setState(() {
-                  _currentSliderSize = value;
-                });
-              },
-              label: 'Rotate X:',
-            ),
-          ],
-        ));
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: _currentSliderSize,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+          childAspectRatio: 1.0,
+        ),
+        itemCount: tiles.length,
+        itemBuilder: (BuildContext context, int index) {
+          return createTileWidgetFrom(tiles[index]);
+        },
+      ),
+    _SliderSize(
+          value: _currentSliderSize,
+          onChanged: (double value) {
+            setState(() {
+              _currentSliderSize = value;
+            });
+          },
+          label: 'Size :',
+        ),
+      ],
+    ));
   }
 
   Widget createTileWidgetFrom(Tile tile) {
@@ -96,10 +96,9 @@ Widget _SliderSize({
       Expanded(
         child: Slider(
           value: value,
-          min: 0,
-          max: 2 *
-              3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
-          divisions: 100,
+          min: 1,
+          max: 10,
+          divisions: 10, 
           onChanged: onChanged,
         ),
       ),

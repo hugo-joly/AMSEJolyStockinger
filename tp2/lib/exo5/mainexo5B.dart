@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -25,17 +25,28 @@ class Tile {
   }
 }
 
-List<Tile> tiles = [
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, -1)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, -1)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, -1)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, 0)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, 0)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 0)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1, 1)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(0, 1)),
-  Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 1))
-];
+List<Tile> createTileTab(int nbTile) {
+  List<Tile> tiles = [];
+  String URL = 'https://picsum.photos/512' ;
+  if (nbTile == 1) {
+    tiles.add(Tile(imageURL: URL, alignment: Alignment(0, 0)));
+  }
+
+  double step = 2/(sqrt(nbTile)-1);
+  for (int i = 0; i < nbTile; i++) {
+    tiles.add(Tile(
+        imageURL: URL,
+        alignment: Alignment(((i % sqrt(nbTile))*step - 1).toDouble(), (i ~/ sqrt(nbTile))*step - 1)));
+  }
+
+  return tiles;
+}
+
+
+
+
+
+
 
 class Exo5B extends StatefulWidget {
   @override
@@ -44,7 +55,6 @@ class Exo5B extends StatefulWidget {
 
 class _Exo5BState extends State<Exo5B> {
   double gridSize = 3;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +72,9 @@ class _Exo5BState extends State<Exo5B> {
                 crossAxisSpacing: 4.0,
                 childAspectRatio: 1.0,
               ),
-              itemCount: tiles.length,
+              itemCount: gridSize.toInt()*gridSize.toInt(),
               itemBuilder: (BuildContext context, int index) {
+                List<Tile> tiles = createTileTab(gridSize.toInt()*gridSize.toInt());
                 return createTileWidgetFrom(tiles[index], gridSize);
               },
             ),
@@ -101,26 +112,3 @@ class _Exo5BState extends State<Exo5B> {
   }
 }
 
-Widget _SliderSize({
-  required double value,
-  required ValueChanged<double> onChanged,
-  required String label,
-}) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(label),
-      const SizedBox(width: 20),
-      Expanded(
-        child: Slider(
-          value: value,
-          min: 1,
-          max: 10,
-          divisions: 10, 
-          onChanged: onChanged,
-        ),
-      ),
-    ],
-  );
-}
-//modif

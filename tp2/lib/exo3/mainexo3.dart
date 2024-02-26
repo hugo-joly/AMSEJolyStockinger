@@ -48,7 +48,7 @@ class _MenuState extends State<Menu> {
               exercice: Exo5A()),
           MenuTile(
               title: "Exercice 5B", 
-              subtitle: "Grid View, image fixe", 
+              subtitle: "Grid View, tableau variable", 
               exercice: Exo5B())
         ]));
   }

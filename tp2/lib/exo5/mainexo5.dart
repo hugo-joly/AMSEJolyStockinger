@@ -42,15 +42,15 @@ class Exo5 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Display a Tile as a Cropped Image'),
+        title: Text('Image Fixe'),
         centerTitle: true,
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, // Number of columns in the grid
-          mainAxisSpacing: 4.0, // Spacing between rows
-          crossAxisSpacing: 4.0, // Spacing between columns
-          childAspectRatio: 1.0, // Aspect ratio of each grid item (width / height)
+          crossAxisCount: 3,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+          childAspectRatio: 1.0,
         ),
         itemCount: tiles.length,
         itemBuilder: (BuildContext context, int index) {

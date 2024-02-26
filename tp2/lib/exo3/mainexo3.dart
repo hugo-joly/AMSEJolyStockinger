@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tp2/exo5/mainexo5.dart';
+import 'package:tp2/exo5/mainexo5A.dart';
+import 'package:tp2/exo5/mainexo5B.dart';
 import '../exo1/mainexo1.dart';
 import '../exo2/mainexo2A.dart';
 import '../exo2b/mainexo2B.dart';
@@ -42,7 +43,13 @@ class _MenuState extends State<Menu> {
               subtitle: "Tile",
               exercice: const DisplayTileWidget()),
           MenuTile(
-              title: "Exercice 5", subtitle: "Tile Grid View", exercice: Exo5())
+              title: "Exercice 5A", 
+              subtitle: "Grid View, image fixe", 
+              exercice: Exo5A()),
+          MenuTile(
+              title: "Exercice 5B", 
+              subtitle: "Grid View, image fixe", 
+              exercice: Exo5B())
         ]));
   }
 }

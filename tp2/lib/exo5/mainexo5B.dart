@@ -37,7 +37,7 @@ List<Tile> tiles = [
   Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(1, 1))
 ];
 
-class Exo5 extends StatelessWidget {
+class Exo5B extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,4 +69,3 @@ class Exo5 extends StatelessWidget {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2/exo5/mainexo5.dart';
 import '../exo1/mainexo1.dart';
 import '../exo2/mainexo2A.dart';
+import '../exo2b/mainexo2B.dart';
 import '../exo4/mainexo4.dart';
 import 'menuTile.dart';
 
@@ -33,13 +34,15 @@ class _MenuState extends State<Menu> {
               subtitle: "Sliders",
               exercice: const Exo2A()),
           MenuTile(
+              title: "Exercice 2B",
+              subtitle: "Sliders + Bouton Play",
+              exercice: const Exo2B()),
+          MenuTile(
               title: "Exercice 4",
               subtitle: "Tile",
               exercice: const DisplayTileWidget()),
           MenuTile(
-              title: "Exercice 5",
-              subtitle: "Tile Grid View",
-              exercice: Exo5())
+              title: "Exercice 5", subtitle: "Tile Grid View", exercice: Exo5())
         ]));
   }
 }

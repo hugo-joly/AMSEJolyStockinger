@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tp2/exo2b/playButton.dart';
 
-void main() => runApp(const Exo2A());
+void main() => runApp(const Exo2B());
 
-class Exo2A extends StatelessWidget {
-  const Exo2A({super.key});
+class Exo2B extends StatelessWidget {
+  const Exo2B({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,34 @@ class _SliderExampleState extends State<SliderExample> {
   double _currentSliderValueZ = 0;
   double _currentSliderValueScale = 1;
 
+  bool running = false;
+  void startAnimation() {
+    setState(() => running = true);
+    const d = Duration(milliseconds: 50);
+    Timer.periodic(d, animate);
+    // this new Timer automatically calls animate every 50ms
+  }
+
+  void animate(Timer t) {
+    if (!running) {
+      t.cancel(); // stops the timer
+    } else {
+      update(_currentSliderValueX, 2 * 3.14);
+      update(_currentSliderValueZ, 2 * 3.14);
+      update(_currentSliderValueScale, 2);
+    }
+  }
+
+  void update(double value, double max) {
+    if (value < max) {
+      value += 1;
+    } else {
+      value = 0;
+    }
+  }
+
+  void stopAnimation() => setState(() => running = false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +69,8 @@ class _SliderExampleState extends State<SliderExample> {
         children: [
           // Image
           Container(
+            height: 300,
+            width: 300,
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(color: Colors.white),
             child: Transform.rotate(
@@ -86,6 +119,11 @@ class _SliderExampleState extends State<SliderExample> {
               });
             },
             label: 'Scale:',
+          ),
+          ButtonActionPlay(
+            startAnimation: startAnimation,
+            stopAnimation: stopAnimation,
+            state: running,
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../exo1/mainexo1.dart';
-import '../exo2/mainexo2.dart';
+import '../exo2/mainexo2A.dart';
+import '../exo2b/mainexo2B.dart';
 import '../exo4/mainexo4.dart';
 import 'menuTile.dart';
 
@@ -30,7 +31,11 @@ class _MenuState extends State<Menu> {
           MenuTile(
               title: "Exercice 2A",
               subtitle: "Sliders",
-              exercice: const Exo2()),
+              exercice: const Exo2A()),
+          MenuTile(
+              title: "Exercice 2B",
+              subtitle: "Sliders + Bouton Play",
+              exercice: const Exo2B()),
           MenuTile(
               title: "Exercice 4",
               subtitle: "Tile",

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Exo2());
+void main() => runApp(const Exo2A());
 
-class Exo2 extends StatelessWidget {
-  const Exo2({super.key});
+class Exo2A extends StatelessWidget {
+  const Exo2A({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,8 @@ class _SliderExampleState extends State<SliderExample> {
           child: Slider(
             value: value,
             min: 0,
-            max: 2*3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
+            max: 2 *
+                3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
             divisions: 100,
             onChanged: onChanged,
           ),
@@ -115,7 +116,7 @@ class _SliderExampleState extends State<SliderExample> {
     );
   }
 
-    Widget _SliderZ({
+  Widget _SliderZ({
     required double value,
     required ValueChanged<double> onChanged,
     required String label,
@@ -129,7 +130,8 @@ class _SliderExampleState extends State<SliderExample> {
           child: Slider(
             value: value,
             min: 0,
-            max: 2*3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
+            max: 2 *
+                3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
             divisions: 100,
             onChanged: onChanged,
           ),
@@ -138,7 +140,7 @@ class _SliderExampleState extends State<SliderExample> {
     );
   }
 
-    Widget _SliderScale({
+  Widget _SliderScale({
     required double value,
     required ValueChanged<double> onChanged,
     required String label,

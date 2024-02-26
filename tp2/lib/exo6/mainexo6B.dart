@@ -99,40 +99,43 @@ class PositionedTilesState extends State<PositionedTilesMoving> {
             (possibleRow == activeRow + 1 && possibleCol == activeCol));
       }
       if (activeRow == size - 1) {
-        return (possibleRow == activeRow - 1 || possibleCol == activeCol + 1);
+        return ((possibleRow == activeRow - 1 && possibleCol == activeCol) ||
+            (possibleCol == activeCol + 1 && possibleRow == activeRow));
       } else {
-        return (possibleRow == activeRow + 1 ||
-            possibleRow == activeRow - 1 ||
-            possibleCol == activeCol + 1);
+        return ((possibleRow == activeRow + 1 && possibleCol == activeCol) ||
+            (possibleRow == activeRow - 1 && possibleCol == activeCol) ||
+            (possibleCol == activeCol + 1 && possibleRow == activeRow));
       }
     } else if (activeCol == size - 1) {
       if (activeRow == 0) {
-        return (possibleCol == activeCol - 1 || possibleRow == activeRow + 1);
+        return ((possibleCol == activeCol - 1 && possibleRow == activeRow) ||
+            (possibleRow == activeRow + 1 && possibleCol == activeCol));
       }
       if (activeRow == size - 1) {
-        return (possibleRow == activeRow - 1 || possibleCol == activeCol - 1);
+        return ((possibleRow == activeRow - 1 && possibleCol == activeCol) ||
+            (possibleCol == activeCol - 1 && possibleRow == activeRow));
       } else {
-        return (possibleRow == activeRow + 1 ||
-            possibleRow == activeRow - 1 ||
-            possibleCol == activeCol - 1);
+        return ((possibleRow == activeRow + 1 && possibleCol == activeCol) ||
+            (possibleRow == activeRow - 1 && possibleCol == activeCol) ||
+            (possibleCol == activeCol - 1 && possibleRow == activeRow));
       }
     } else if (activeRow == 0) {
       if (activeCol >= 1 || activeCol < size - 1) {
-        return (possibleCol == activeCol - 1 ||
-            possibleCol == activeCol + 1 ||
-            possibleRow == activeRow + 1);
+        return ((possibleCol == activeCol - 1 && possibleRow == activeRow) ||
+            (possibleCol == activeCol + 1 && possibleRow == activeRow) ||
+            (possibleRow == activeRow + 1 && possibleCol == activeCol));
       }
     } else if (activeRow == size - 1) {
       if (activeCol >= 1 && activeCol < size - 1) {
-        return (possibleCol == activeCol - 1 ||
-            possibleCol == activeCol + 1 ||
-            possibleRow == activeRow - 1);
+        return ((possibleCol == activeCol - 1 && possibleRow == activeRow) ||
+            (possibleCol == activeCol + 1 && possibleRow == activeRow) ||
+            (possibleRow == activeRow - 1 && possibleCol == activeCol));
       }
     } else {
-      return (possibleCol == activeCol + 1 ||
-          possibleCol == activeCol - 1 ||
-          possibleRow == activeRow + 1 ||
-          possibleRow == activeRow - 1);
+      return ((possibleCol == activeCol + 1 && possibleRow == activeRow) ||
+          (possibleCol == activeCol - 1 && possibleRow == activeRow) ||
+          (possibleRow == activeRow + 1 && possibleCol == activeCol) ||
+          (possibleRow == activeRow - 1 && possibleCol == activeCol));
     }
   }
 

@@ -15,8 +15,8 @@ class Tile {
         child: Container(
           child: Align(
             alignment: alignment,
-            widthFactor: 1/3,
-            heightFactor: 1/3,
+            widthFactor: 1 / 3,
+            heightFactor: 1 / 3,
             child: Image.network(this.imageURL),
           ),
         ),
@@ -38,26 +38,39 @@ List<Tile> tiles = [
 ];
 
 class Exo5B extends StatelessWidget {
+  double _currentSliderSize = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Fixe'),
-        centerTitle: true,
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-          childAspectRatio: 1.0,
+        appBar: AppBar(
+          title: Text('Image Fixe'),
+          centerTitle: true,
         ),
-        itemCount: tiles.length,
-        itemBuilder: (BuildContext context, int index) {
-          return createTileWidgetFrom(tiles[index]);
-        },
-      ),
-    );
+        body: Column(
+          children: [
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: tiles.length,
+              itemBuilder: (BuildContext context, int index) {
+                return createTileWidgetFrom(tiles[index]);
+              },
+            ),
+            _SliderSize(
+              value: _currentSliderSize,
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderSize = value;
+                });
+              },
+              label: 'Rotate X:',
+            ),
+          ],
+        ));
   }
 
   Widget createTileWidgetFrom(Tile tile) {
@@ -68,4 +81,28 @@ class Exo5B extends StatelessWidget {
       },
     );
   }
+}
+
+Widget _SliderSize({
+  required double value,
+  required ValueChanged<double> onChanged,
+  required String label,
+}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(label),
+      const SizedBox(width: 20),
+      Expanded(
+        child: Slider(
+          value: value,
+          min: 0,
+          max: 2 *
+              3.14, // Vous pouvez ajuster la plage en fonction de vos besoins
+          divisions: 100,
+          onChanged: onChanged,
+        ),
+      ),
+    ],
+  );
 }

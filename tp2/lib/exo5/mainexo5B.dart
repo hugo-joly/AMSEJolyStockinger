@@ -27,15 +27,11 @@ class Tile {
 
 List<Tile> createTileTab(int nbTile) {
   List<Tile> tiles = [];
-  String URL = 'https://picsum.photos/512' ;
-  if (nbTile == 1) {
-    tiles.add(Tile(imageURL: URL, alignment: Alignment(0, 0)));
-  }
 
   double step = 2/(sqrt(nbTile)-1);
   for (int i = 0; i < nbTile; i++) {
     tiles.add(Tile(
-        imageURL: URL,
+        imageURL: 'https://picsum.photos/512',
         alignment: Alignment(((i % sqrt(nbTile))*step - 1).toDouble(), (i ~/ sqrt(nbTile))*step - 1)));
   }
 
@@ -81,9 +77,9 @@ class _Exo5BState extends State<Exo5B> {
           ),
           Slider(
             value: gridSize,
-            min: 1,
+            min: 2,
             max: 10,
-            divisions: 9,
+            divisions: 8,
             onChanged: (value) {
               setState(() {
                 gridSize = value;

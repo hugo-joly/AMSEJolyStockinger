@@ -91,7 +91,7 @@ class _SquaredImageState extends State<SquaredImage> {
                   _currentSliderSize = value;
                 });
               },
-              label: 'Rotate X:',
+              label: 'Size :',
             ),
           ],
         ));

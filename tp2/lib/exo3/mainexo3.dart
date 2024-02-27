@@ -4,6 +4,7 @@ import 'package:tp2/exo5/mainexo5B.dart';
 import 'package:tp2/exo6/mainexo6A.dart';
 import 'package:tp2/exo6/mainexo6B.dart';
 import 'package:tp2/exo6/mainexo6C.dart';
+import 'package:tp2/taquin/maintaquin.dart';
 import '../exo1/mainexo1.dart';
 import '../exo2/mainexo2A.dart';
 import '../exo2b/mainexo2B.dart';
@@ -64,7 +65,11 @@ class _MenuState extends State<Menu> {
           MenuTile(
               title: "Exercice 6C",
               subtitle: "tile qui se déplace sur une image + taille adaptable",
-              exercice: ImagePuzzle())
+              exercice: ImagePuzzle()),
+          MenuTile(
+              title: "Exercice 7",
+              subtitle: "Taquin",
+              exercice: Taquin())
         ]));
   }
 }

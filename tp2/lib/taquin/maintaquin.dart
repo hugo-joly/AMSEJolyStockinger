@@ -4,9 +4,10 @@ import 'dart:math' as math;
 math.Random random = new math.Random();
 
 class Tile {
+  late int id;
   late String imageURL;
   late Alignment alignment;
-  Tile({required this.imageURL, required this.alignment});
+  Tile({required this.imageURL, required this.alignment, required this.id});
 }
 
 class TileWidget extends StatelessWidget {
@@ -45,23 +46,25 @@ List<Tile> createTileTab(int nbTile) {
     tiles.add(Tile(
         imageURL: 'https://picsum.photos/512',
         alignment: Alignment(((i % math.sqrt(nbTile)) * step - 1).toDouble(),
-            (i ~/ math.sqrt(nbTile)) * step - 1)));
+            (i ~/ math.sqrt(nbTile)) * step - 1),
+        id: i));
   }
 
   return tiles;
 }
 
-void main() => runApp(new MaterialApp(home: ImagePuzzle()));
+void main() => runApp(new MaterialApp(home: Taquin()));
 
-class ImagePuzzle extends StatefulWidget {
+class Taquin extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => ImagePuzzleState();
+  State<StatefulWidget> createState() => TaquinState();
 }
 
-class ImagePuzzleState extends State<ImagePuzzle> {
+class TaquinState extends State<Taquin> {
   late List<Tile> tiles;
   late int gridSize;
   int emptyTileIndex = 0;
+  int compteurDeplacement = 0;
 
   @override
   void initState() {
@@ -127,6 +130,23 @@ class ImagePuzzleState extends State<ImagePuzzle> {
     }
   }
 
+  bool isFinish() {
+    for (int i = 0; i < tiles.length; i++) {
+      if (i != tiles[i].id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  String textDisplayed() {
+    if (isFinish()) {
+      return ("Gagné !!!");
+    } else {
+      return ('Déplacements: $compteurDeplacement');
+    }
+  }
+
   void moveTile(int index) {
     setState(() {
       Tile temp = tiles[emptyTileIndex];
@@ -145,6 +165,12 @@ class ImagePuzzleState extends State<ImagePuzzle> {
       ),
       body: Column(
         children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                textDisplayed(),
+                style: TextStyle(fontSize: 20, color: Colors.black),
+              )),
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -161,7 +187,15 @@ class ImagePuzzleState extends State<ImagePuzzle> {
                     return GestureDetector(
                         onTap: () {
                           if (isMoveValid(index, emptyTileIndex, gridSize)!) {
+                            setState(() => compteurDeplacement++);
                             moveTile(index);
+                            if (isFinish()) {
+                              const Text(
+                                "Gagné !!!",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.green),
+                              );
+                            }
                           }
                         },
                         child: TileWidget(
@@ -177,7 +211,7 @@ class ImagePuzzleState extends State<ImagePuzzle> {
             onChanged: (value) {
               setState(() {
                 gridSize = value.toInt();
-                generateTiles(); // Regenerate tiles when grid size changes
+                generateTiles();
               });
             },
           ),
@@ -187,7 +221,7 @@ class ImagePuzzleState extends State<ImagePuzzle> {
               gridSize.toString(),
               style: TextStyle(color: Colors.black),
             ),
-          )
+          ),
         ],
       ),
     );

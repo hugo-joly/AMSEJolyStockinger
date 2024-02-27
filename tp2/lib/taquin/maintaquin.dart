@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 math.Random random = new math.Random();
 
@@ -37,13 +40,13 @@ class TileWidget extends StatelessWidget {
   }
 }
 
-List<Tile> createTileTab(int nbTile) {
+List<Tile> createTileTab(int nbTile, String url) {
   List<Tile> tiles = [];
 
   double step = 2 / (math.sqrt(nbTile) - 1);
   for (int i = 0; i < nbTile; i++) {
     tiles.add(Tile(
-        imageURL: 'https://picsum.photos/512',
+        imageURL: url,
         alignment: Alignment(((i % math.sqrt(nbTile)) * step - 1).toDouble(),
             (i ~/ math.sqrt(nbTile)) * step - 1)));
   }
@@ -51,14 +54,14 @@ List<Tile> createTileTab(int nbTile) {
   return tiles;
 }
 
-void main() => runApp(new MaterialApp(home: ImagePuzzle()));
+void main() => runApp(new MaterialApp(home: Taquin()));
 
-class ImagePuzzle extends StatefulWidget {
+class Taquin extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ImagePuzzleState();
 }
 
-class ImagePuzzleState extends State<ImagePuzzle> {
+class ImagePuzzleState extends State<Taquin> {
   late List<Tile> tiles;
   late int gridSize;
   int emptyTileIndex = 0;
@@ -67,13 +70,27 @@ class ImagePuzzleState extends State<ImagePuzzle> {
   void initState() {
     super.initState();
     gridSize = 3; // Initial grid size
-    generateTiles();
+    generateTiles('https://picsum.photos/512');
   }
 
-  void generateTiles() {
+  void generateTiles(String imageUrl) {
     // Ici, vous pouvez remplacer l'URL de l'image par celle que vous souhaitez utiliser
-    tiles = createTileTab(gridSize * gridSize);
+    tiles = createTileTab(gridSize * gridSize, imageUrl);
   }
+
+  String imagePickedFromGallery = '';
+  Future<void> getImageFromGallery() async {
+    final picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      imagePickedFromGallery = pickedFile.path;
+      setState(() {
+        generateTiles(pickedFile.path);
+      });
+    }
+  }
+
 
   bool? isMoveValid(int index, int emptyTileIndex, int size) {
     int activeRow = emptyTileIndex ~/ size;
@@ -142,6 +159,15 @@ class ImagePuzzleState extends State<ImagePuzzle> {
       appBar: AppBar(
         title: Text('Image Puzzle'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.photo_library),
+            onPressed: () {
+              getImageFromGallery();
+            },
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 50.0, 0.0),
+          ),        
+        ],
       ),
       body: Column(
         children: [
@@ -177,7 +203,12 @@ class ImagePuzzleState extends State<ImagePuzzle> {
             onChanged: (value) {
               setState(() {
                 gridSize = value.toInt();
-                generateTiles(); // Regenerate tiles when grid size changes
+                if (imagePickedFromGallery != ''){
+                  generateTiles(imagePickedFromGallery);
+                }
+                else{
+                  generateTiles('https://picsum.photos/512'); // Regenerate tiles when grid size changes
+                }
               });
             },
           ),

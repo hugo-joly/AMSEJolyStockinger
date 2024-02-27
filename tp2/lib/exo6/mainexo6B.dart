@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-// ==============
-// Models
-// ==============
-
 math.Random random = new math.Random();
 
 class Tile {
@@ -16,10 +12,6 @@ class Tile {
         255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
   }
 }
-
-// ==============
-// Widgets
-// ==============
 
 class TileWidget extends StatelessWidget {
   final Tile tile;
@@ -36,7 +28,6 @@ class TileWidget extends StatelessWidget {
         color: tile.color,
         child: Padding(
           padding: EdgeInsets.all(70.0),
-          child: Text(""),
         ));
   }
 }
@@ -90,8 +81,6 @@ class PositionedTilesState extends State<PositionedTilesMoving> {
     int activeCol = emptyTileIndex % size;
     int possibleRow = index ~/ size;
     int possibleCol = index % size;
-    print(activeCol);
-    print(activeRow);
 
     if (activeCol == 0) {
       if (activeRow == 0) {

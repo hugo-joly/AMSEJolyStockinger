@@ -172,6 +172,29 @@ class TaquinState extends State<Taquin> {
     });
   }
 
+  void shuffleTiles(int diff) {
+    if (diff == 0) {
+    } else {
+      int nbCoup = 5 * diff;
+      int i = 1;
+      int max = tiles.length;
+
+      while (i < nbCoup) {
+        List<int> possibleMove = [];
+        int randomNumber =
+            1 + random.nextInt(max - 2); // ne pas oublier le module des bords
+        for (int j = 0; j < max; j++) {
+          if (isMoveValid(j, randomNumber, gridSize)!) {
+            possibleMove.add(j);
+          }
+        }
+        int newIndice = possibleMove[random.nextInt(3)];
+        tiles.insert(newIndice, tiles.removeAt(randomNumber));
+        i++;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

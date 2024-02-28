@@ -163,6 +163,17 @@ class TaquinState extends State<Taquin> {
     }
   }
 
+  math.Random random = new math.Random();
+
+  String randomImage = 'https://picsum.photos/512';
+  String generateRandomImageUrl() {
+    // Generate a random number to append to the URL
+    int randomNumber = random.nextInt(1000); // You can adjust the range as needed
+    // Construct the URL with the random number
+    randomImage = 'https://picsum.photos/512?v=$randomNumber';
+    return randomImage;
+  }
+
   void moveTile(int index) {
     setState(() {
       Tile temp = tiles[emptyTileIndex];
@@ -201,15 +212,6 @@ class TaquinState extends State<Taquin> {
       appBar: AppBar(
         title: Text('Image Puzzle'),
         centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo_library),
-            onPressed: () {
-              getImageFromGallery();
-            },
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 50.0, 0.0),
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -251,32 +253,104 @@ class TaquinState extends State<Taquin> {
                   }
                 }),
           ),
-          Slider(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                icon: Icon(Icons.cached_rounded),
+                onPressed: () {
+                  setState(() {
+                    generateTiles(generateRandomImageUrl());
+                  });
+                },
+              ),
+              IconButton(
+                  icon: Icon(Icons.play_circle),
+                  onPressed: () {
+                    setState(() {
+
+                    });
+                  }
+              ),
+              IconButton(
+                icon: Icon(Icons.photo_library),
+                onPressed: () {
+                  getImageFromGallery();
+                },
+              ),
+            ],
+          ),
+          _SliderGridSize(
             value: gridSize.toDouble(),
-            min: 2,
-            max: 10,
-            divisions: 8,
             onChanged: (value) {
               setState(() {
                 gridSize = value.toInt();
                 if (imagePickedFromGallery != '') {
                   generateTiles(imagePickedFromGallery);
                 } else {
-                  generateTiles(
-                      'https://picsum.photos/512'); // Regenerate tiles when grid size changes
+                  generateTiles(randomImage); // Regenerate tiles when grid size changes
                 }
               });
             },
+            label: "Grid Size :",
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              gridSize.toString(),
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
+          _SliderDifficulty(
+            value: 0,
+            onChanged: (value) {
+              setState(() {
+                
+              });
+            },
+            label: "Difficulty",
+          ),  
         ],
       ),
+    );
+  }
+
+  Widget _SliderGridSize({
+    required double value,
+    required ValueChanged<double> onChanged,
+    required String label,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(label),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Slider(
+            value: value,
+            min: 2,
+            max: 10, // Vous pouvez ajuster la plage en fonction de vos besoins
+            divisions: 8,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _SliderDifficulty({
+    required double value,
+    required ValueChanged<double> onChanged,
+    required String label,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(label),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Slider(
+            value: value,
+            min: 0,
+            max: 3, // Vous pouvez ajuster la plage en fonction de vos besoins
+            divisions: 4,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
     );
   }
 }

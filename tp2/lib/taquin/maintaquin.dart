@@ -67,6 +67,7 @@ class TaquinState extends State<Taquin> {
   late int gridSize;
   int emptyTileIndex = 0;
   int compteurDeplacement = 0;
+  int difficulty = 0;
 
   @override
   void initState() {
@@ -168,7 +169,8 @@ class TaquinState extends State<Taquin> {
   String randomImage = 'https://picsum.photos/512';
   String generateRandomImageUrl() {
     // Generate a random number to append to the URL
-    int randomNumber = random.nextInt(1000); // You can adjust the range as needed
+    int randomNumber =
+        random.nextInt(1000); // You can adjust the range as needed
     // Construct the URL with the random number
     randomImage = 'https://picsum.photos/512?v=$randomNumber';
     return randomImage;
@@ -186,20 +188,19 @@ class TaquinState extends State<Taquin> {
   void shuffleTiles(int diff) {
     if (diff == 0) {
     } else {
-      int nbCoup = 5 * diff;
+      int nbCoup = 2 * diff * (gridSize ~/ 2);
       int i = 1;
       int max = tiles.length;
 
       while (i < nbCoup) {
         List<int> possibleMove = [];
-        int randomNumber =
-            1 + random.nextInt(max - 2); // ne pas oublier le module des bords
+        int randomNumber = 1 + random.nextInt(max - 2);
         for (int j = 0; j < max; j++) {
           if (isMoveValid(j, randomNumber, gridSize)!) {
             possibleMove.add(j);
           }
         }
-        int newIndice = possibleMove[random.nextInt(3)];
+        int newIndice = possibleMove[random.nextInt(possibleMove.length)];
         tiles.insert(newIndice, tiles.removeAt(randomNumber));
         i++;
       }
@@ -231,6 +232,7 @@ class TaquinState extends State<Taquin> {
                 ),
                 itemCount: gridSize * gridSize,
                 itemBuilder: (BuildContext context, int index) {
+                  //shuffleTiles(1);
                   if (index == emptyTileIndex) {
                     return Container();
                   } else {
@@ -239,13 +241,6 @@ class TaquinState extends State<Taquin> {
                           if (isMoveValid(index, emptyTileIndex, gridSize)!) {
                             setState(() => compteurDeplacement++);
                             moveTile(index);
-                            if (isFinish()) {
-                              const Text(
-                                "Gagné !!!",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.green),
-                              );
-                            }
                           }
                         },
                         child: TileWidget(
@@ -267,11 +262,9 @@ class TaquinState extends State<Taquin> {
               IconButton(
                   icon: Icon(Icons.play_circle),
                   onPressed: () {
-                    setState(() {
-
-                    });
-                  }
-              ),
+                    shuffleTiles(difficulty);
+                    setState(() {});
+                  }),
               IconButton(
                 icon: Icon(Icons.photo_library),
                 onPressed: () {
@@ -288,21 +281,22 @@ class TaquinState extends State<Taquin> {
                 if (imagePickedFromGallery != '') {
                   generateTiles(imagePickedFromGallery);
                 } else {
-                  generateTiles(randomImage); // Regenerate tiles when grid size changes
+                  generateTiles(
+                      randomImage); // Regenerate tiles when grid size changes
                 }
               });
             },
             label: "Grid Size :",
           ),
           _SliderDifficulty(
-            value: 0,
+            value: difficulty.toDouble(),
             onChanged: (value) {
               setState(() {
-                
+                difficulty = value.toInt();
               });
             },
             label: "Difficulty",
-          ),  
+          ),
         ],
       ),
     );
@@ -322,7 +316,7 @@ class TaquinState extends State<Taquin> {
           child: Slider(
             value: value,
             min: 2,
-            max: 10, // Vous pouvez ajuster la plage en fonction de vos besoins
+            max: 10,
             divisions: 8,
             onChanged: onChanged,
           ),
@@ -345,7 +339,7 @@ class TaquinState extends State<Taquin> {
           child: Slider(
             value: value,
             min: 0,
-            max: 3, // Vous pouvez ajuster la plage en fonction de vos besoins
+            max: 3,
             divisions: 4,
             onChanged: onChanged,
           ),

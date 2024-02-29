@@ -67,13 +67,16 @@ class TaquinState extends State<Taquin> {
   late int gridSize;
   int emptyTileIndex = 0;
   int compteurDeplacement = 0;
-  int difficulty = 0;
+  bool started = false;
+  int selectedDifficulty = 1;
+  String randomImage = 'https://picsum.photos/512';
+  String imagePickedFromGallery = '';
 
   @override
   void initState() {
     super.initState();
     gridSize = 3; // Initial grid size
-    generateTiles('https://picsum.photos/512');
+    generateTiles(randomImage);
   }
 
   void generateTiles(String imageUrl) {
@@ -81,7 +84,6 @@ class TaquinState extends State<Taquin> {
     tiles = createTileTab(gridSize * gridSize, imageUrl);
   }
 
-  String imagePickedFromGallery = '';
   Future<void> getImageFromGallery() async {
     final picker = ImagePicker();
     final XFile? pickedFile =
@@ -147,7 +149,7 @@ class TaquinState extends State<Taquin> {
     }
   }
 
-  bool isFinish() {
+  bool isFinished() {
     for (int i = 0; i < tiles.length; i++) {
       if (i != tiles[i].id) {
         return false;
@@ -157,16 +159,20 @@ class TaquinState extends State<Taquin> {
   }
 
   String textDisplayed() {
-    if (isFinish()) {
-      return ("Gagné !!!");
-    } else {
-      return ('Déplacements: $compteurDeplacement');
+    if (started) {
+      if (isFinished()) {
+        return ("Gagné !!!");
+      } else {
+        return ('Déplacements: $compteurDeplacement');
+      }
+    }
+    else {
+      return ("À vous de jouer !");
     }
   }
 
   math.Random random = new math.Random();
 
-  String randomImage = 'https://picsum.photos/512';
   String generateRandomImageUrl() {
     // Generate a random number to append to the URL
     int randomNumber =
@@ -188,7 +194,7 @@ class TaquinState extends State<Taquin> {
   void shuffleTiles(int diff) {
     if (diff == 0) {
     } else {
-      int nbCoup = 2 * diff * (gridSize ~/ 2);
+      int nbCoup = 2 * diff * (gridSize);
       int i = 1;
       int max = tiles.length;
 
@@ -211,7 +217,7 @@ class TaquinState extends State<Taquin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Puzzle'),
+        title: Text('Taquin'),
         centerTitle: true,
       ),
       body: Column(
@@ -237,7 +243,7 @@ class TaquinState extends State<Taquin> {
                     return Container();
                   } else {
                     return GestureDetector(
-                        onTap: () {
+                        onTap: !started ? null : () {
                           if (isMoveValid(index, emptyTileIndex, gridSize)!) {
                             setState(() => compteurDeplacement++);
                             moveTile(index);
@@ -251,28 +257,100 @@ class TaquinState extends State<Taquin> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                icon: Icon(Icons.cached_rounded),
-                onPressed: () {
-                  setState(() {
-                    generateTiles(generateRandomImageUrl());
-                  });
-                },
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.cached_rounded), 
+                    onPressed: started ? null : () {
+                      setState(() {
+                        generateTiles(generateRandomImageUrl());
+                      });
+                    },
+                  ),
+                  Text("Random"),
+                ],
               ),
-              IconButton(
-                  icon: Icon(Icons.play_circle),
-                  onPressed: () {
-                    shuffleTiles(difficulty);
-                    setState(() {});
-                  }),
-              IconButton(
-                icon: Icon(Icons.photo_library),
-                onPressed: () {
-                  getImageFromGallery();
-                },
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: started ? Icon(Icons.stop_circle) : Icon(Icons.play_circle),
+                    onPressed: () {
+                      setState(() {
+                        if (!started) {
+                        shuffleTiles(selectedDifficulty);
+                        started = true;
+                      }
+                      else {
+                        if (imagePickedFromGallery != ''){
+                          generateTiles(imagePickedFromGallery);
+                        }
+                        else{
+                          generateTiles(randomImage);
+                        }
+                        compteurDeplacement = 0;
+                        emptyTileIndex = 0;
+                        started = false;
+                      }
+                      });
+                    },
+                  ),
+                  Text(started ? "Stop" : "Start"),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.photo_library),
+                    onPressed: started ? null : () {
+                      getImageFromGallery();
+                    },
+                    
+                  ),
+                  Text("Gallery"),
+                ],
               ),
             ],
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 6.0)
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 10,10,10),
+                child: Text(
+                  'Difficulty :',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+              ),
+              for (int i = 1; i < 4; i++)
+                  ElevatedButton(
+                  onPressed: started ? null : () {
+                    setState(() {
+                      selectedDifficulty = i;
+                    });
+                  },
+                  style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed) || i == selectedDifficulty) {
+                        return Colors.deepPurple;
+                      }
+                      return const Color.fromARGB(118, 104, 58, 183);
+                    },
+                  ),
+                ),
+                  child: Text('$i'), 
+              ),
+            ],
+          ),
+          
+          
+
           _SliderGridSize(
             value: gridSize.toDouble(),
             onChanged: (value) {
@@ -282,21 +360,12 @@ class TaquinState extends State<Taquin> {
                   generateTiles(imagePickedFromGallery);
                 } else {
                   generateTiles(
-                      randomImage); // Regenerate tiles when grid size changes
+                      randomImage);
                 }
               });
             },
             label: "Grid Size :",
-          ),
-          _SliderDifficulty(
-            value: difficulty.toDouble(),
-            onChanged: (value) {
-              setState(() {
-                difficulty = value.toInt();
-              });
-            },
-            label: "Difficulty",
-          ),
+          ),          
         ],
       ),
     );
@@ -308,8 +377,9 @@ class TaquinState extends State<Taquin> {
     required String label,
   }) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        const SizedBox(width: 20),
         Text(label),
         const SizedBox(width: 20),
         Expanded(
@@ -318,30 +388,7 @@ class TaquinState extends State<Taquin> {
             min: 2,
             max: 10,
             divisions: 8,
-            onChanged: onChanged,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _SliderDifficulty({
-    required double value,
-    required ValueChanged<double> onChanged,
-    required String label,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(label),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Slider(
-            value: value,
-            min: 0,
-            max: 3,
-            divisions: 4,
-            onChanged: onChanged,
+            onChanged: started ? null : onChanged,
           ),
         ),
       ],

@@ -73,6 +73,8 @@ class TaquinState extends State<Taquin> {
   int selectedDifficulty = 1;
   String randomImage = 'https://picsum.photos/512';
   String imagePickedFromGallery = '';
+  int lastTileIndex = -1;
+  bool backButtonUsed = false ;
 
   @override
   void initState() {
@@ -188,18 +190,20 @@ class TaquinState extends State<Taquin> {
       Tile temp = tiles[emptyTileIndex];
       tiles[emptyTileIndex] = tiles[index];
       tiles[index] = temp;
+      lastTileIndex = emptyTileIndex;
       emptyTileIndex = index;
+      backButtonUsed = false ;
     });
   }
 
   void shuffleTiles(int diff) {
-    int nbCoup = 200 * diff * (gridSize);
+    int nbCoup = 5 * diff*diff * (gridSize);
     int i = 1;
     int max = tiles.length;
 
     while (i < nbCoup) {
       List<int> possibleMove = [];
-      emptyTileIndex = random.nextInt(gridSize);
+      emptyTileIndex = random.nextInt(gridSize*gridSize);
       for (int j = 0; j < max; j++) {
         if (isMoveValid(j, emptyTileIndex, gridSize)!) {
           possibleMove.add(j);
@@ -287,16 +291,26 @@ class TaquinState extends State<Taquin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.cached_rounded),
-                    onPressed: started
-                        ? null
-                        : () {
-                            setState(() {
-                              generateTiles(generateRandomImageUrl());
-                            });
-                          },
+                    icon: !started ? Icon(Icons.cached_rounded) : backButtonUsed ? Icon(Icons.arrow_back_rounded, color: Colors.grey ,) : Icon(Icons.arrow_back_rounded),
+                    onPressed: () {
+                      if (!started){
+                        setState(() {
+                          generateTiles(generateRandomImageUrl());
+                        });
+                      }
+                      else {
+                        if (lastTileIndex != -1){
+                          moveTile(lastTileIndex);
+                          lastTileIndex = -1;
+                          setState(() {
+                            backButtonUsed = true;
+                          });
+                        }
+                        
+                      }
+                    },
                   ),
-                  Text("Random"),
+                  Text(started ? "Back" : "Random"),
                 ],
               ),
               Column(
@@ -321,6 +335,8 @@ class TaquinState extends State<Taquin> {
                           emptyTileIndex = 0;
                           started = false;
                         }
+                        backButtonUsed = true;
+                        lastTileIndex = -1;
                       });
                     },
                   ),

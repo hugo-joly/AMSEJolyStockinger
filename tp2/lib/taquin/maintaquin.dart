@@ -1,3 +1,5 @@
+//import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:image_picker/image_picker.dart';
@@ -165,8 +167,7 @@ class TaquinState extends State<Taquin> {
       } else {
         return ('Déplacements: $compteurDeplacement');
       }
-    }
-    else {
+    } else {
       return ("À vous de jouer !");
     }
   }
@@ -192,6 +193,27 @@ class TaquinState extends State<Taquin> {
   }
 
   void shuffleTiles(int diff) {
+    int nbCoup = 200 * diff * (gridSize);
+    int i = 1;
+    int max = tiles.length;
+
+    while (i < nbCoup) {
+      List<int> possibleMove = [];
+      emptyTileIndex = random.nextInt(gridSize);
+      for (int j = 0; j < max; j++) {
+        if (isMoveValid(j, emptyTileIndex, gridSize)!) {
+          possibleMove.add(j);
+        }
+      }
+
+      int newIndice = possibleMove[random.nextInt(possibleMove.length)];
+      tiles.insert(newIndice, tiles.removeAt(emptyTileIndex));
+      emptyTileIndex = newIndice;
+      i++;
+    }
+
+    /*
+
     if (diff == 0) {
     } else {
       int nbCoup = 2 * diff * (gridSize);
@@ -210,7 +232,8 @@ class TaquinState extends State<Taquin> {
         tiles.insert(newIndice, tiles.removeAt(randomNumber));
         i++;
       }
-    }
+
+      */
   }
 
   @override
@@ -243,12 +266,15 @@ class TaquinState extends State<Taquin> {
                     return Container();
                   } else {
                     return GestureDetector(
-                        onTap: !started ? null : () {
-                          if (isMoveValid(index, emptyTileIndex, gridSize)!) {
-                            setState(() => compteurDeplacement++);
-                            moveTile(index);
-                          }
-                        },
+                        onTap: !started
+                            ? null
+                            : () {
+                                if (isMoveValid(
+                                    index, emptyTileIndex, gridSize)!) {
+                                  setState(() => compteurDeplacement++);
+                                  moveTile(index);
+                                }
+                              },
                         child: TileWidget(
                             tile: tiles[index], tileSize: gridSize.toDouble()));
                   }
@@ -261,12 +287,14 @@ class TaquinState extends State<Taquin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.cached_rounded), 
-                    onPressed: started ? null : () {
-                      setState(() {
-                        generateTiles(generateRandomImageUrl());
-                      });
-                    },
+                    icon: Icon(Icons.cached_rounded),
+                    onPressed: started
+                        ? null
+                        : () {
+                            setState(() {
+                              generateTiles(generateRandomImageUrl());
+                            });
+                          },
                   ),
                   Text("Random"),
                 ],
@@ -275,24 +303,24 @@ class TaquinState extends State<Taquin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: started ? Icon(Icons.stop_circle) : Icon(Icons.play_circle),
+                    icon: started
+                        ? Icon(Icons.stop_circle)
+                        : Icon(Icons.play_circle),
                     onPressed: () {
                       setState(() {
                         if (!started) {
-                        shuffleTiles(selectedDifficulty);
-                        started = true;
-                      }
-                      else {
-                        if (imagePickedFromGallery != ''){
-                          generateTiles(imagePickedFromGallery);
+                          shuffleTiles(selectedDifficulty);
+                          started = true;
+                        } else {
+                          if (imagePickedFromGallery != '') {
+                            generateTiles(imagePickedFromGallery);
+                          } else {
+                            generateTiles(randomImage);
+                          }
+                          compteurDeplacement = 0;
+                          emptyTileIndex = 0;
+                          started = false;
                         }
-                        else{
-                          generateTiles(randomImage);
-                        }
-                        compteurDeplacement = 0;
-                        emptyTileIndex = 0;
-                        started = false;
-                      }
                       });
                     },
                   ),
@@ -304,53 +332,52 @@ class TaquinState extends State<Taquin> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.photo_library),
-                    onPressed: started ? null : () {
-                      getImageFromGallery();
-                    },
-                    
+                    onPressed: started
+                        ? null
+                        : () {
+                            getImageFromGallery();
+                          },
                   ),
                   Text("Gallery"),
                 ],
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 6.0)
-          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 6.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 10,10,10),
+                padding: EdgeInsets.fromLTRB(0.0, 10, 10, 10),
                 child: Text(
                   'Difficulty :',
                   style: TextStyle(fontSize: 14.0),
                 ),
               ),
               for (int i = 1; i < 4; i++)
-                  ElevatedButton(
-                  onPressed: started ? null : () {
-                    setState(() {
-                      selectedDifficulty = i;
-                    });
-                  },
+                ElevatedButton(
+                  onPressed: started
+                      ? null
+                      : () {
+                          setState(() {
+                            selectedDifficulty = i;
+                          });
+                        },
                   style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed) || i == selectedDifficulty) {
-                        return Colors.deepPurple;
-                      }
-                      return const Color.fromARGB(118, 104, 58, 183);
-                    },
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed) ||
+                            i == selectedDifficulty) {
+                          return Colors.deepPurple;
+                        }
+                        return const Color.fromARGB(118, 104, 58, 183);
+                      },
+                    ),
                   ),
+                  child: Text('$i'),
                 ),
-                  child: Text('$i'), 
-              ),
             ],
           ),
-          
-          
-
           _SliderGridSize(
             value: gridSize.toDouble(),
             onChanged: (value) {
@@ -359,13 +386,12 @@ class TaquinState extends State<Taquin> {
                 if (imagePickedFromGallery != '') {
                   generateTiles(imagePickedFromGallery);
                 } else {
-                  generateTiles(
-                      randomImage);
+                  generateTiles(randomImage);
                 }
               });
             },
             label: "Grid Size :",
-          ),          
+          ),
         ],
       ),
     );
